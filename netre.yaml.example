@@ -1,0 +1,39 @@
+---
+# Delay between checks (type: Duration, default: 1m)
+#
+delay: 15s
+
+# Timeout for http request (type: Duration, default: 30s)
+#
+timeout: 30s
+
+# Make a http request as a way to reveal the public address. Assumption
+# is that you have access to web server logs on some other host.
+#
+# when: never | change | always
+# url:  URL string in which '%s' is replaced with address if it exists
+#
+publish:
+  when: always
+  url: "http://starck.fi/ip/%s"
+
+# A map of checks to perform when trying to detect failed networking.
+#
+# <name>:
+#   type:     Type of the check (dns | http)
+#   name:     Fully qualified domain name to resolve (dns only)
+#   server:   Nameserver address:port (dns only)
+#   location: URL string (http only)
+#
+# Name of the check can be any arbitrary YAML key. Type is require for
+# each check. Domain name must end with a dot character. Nameserver
+# address must include port number (usually 53).
+#
+checks:
+  resolveGoogleCom:
+    type: dns
+    name: google.com.
+    server: 8.8.4.4:53
+  httpRequestAkamaiCom:
+    type: http
+    location: https://www.akamai.com
